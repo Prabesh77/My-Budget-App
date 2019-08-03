@@ -1,24 +1,350 @@
-.paragraph {
-    width: 300px;
+body {
+    background: #36536A;
 }
 
-.paragraph li {
+.container {
+    display: flex;
+}
+
+.container1 {
+    flex: 1;
+}
+
+.container2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+
+
+h1 {
+    font-weight: 400;
+}
+
+.form  {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+
+
+.form-group {
+    margin: 0 8px 0 22px;
+}
+
+.first {
+    flex: 3;
+}
+
+.second {
+    flex: 2;
+}
+
+button {
+    flex: 1;
+}
+.form-group .topic {
+    /* flex: 2; */
+    /* width: 70%; */
     width: 100%;
+    /* width: 200px; */
 }
 
-span.index {
-    float: left;
-    padding-left: 5px;
-    /* color: white; */
+.form-group .expenditure {
+    width: 100%;
+    /* flex: 1; */
+    
 }
 
-.form-control {
-    width: 300px;
-    margin: auto;
+.form-group input {
+    border-radius: 9px;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding-left: 1rem;
 }
 
-.del-btn {
-    float: right;
-    margin-top: -4px;
+.second {
+    margin-left: 1rem;
 }
+
+button {
+    height: 40px;
+    /* width: 80px; */
+    flex: 1;
+    margin-top: 2rem;
+    border: none;
+    background: #C4B925;
+    padding: 8px 8px;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.first label, .second label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #C7C7C7;
+}
+
+input::placeholder {
+    font-size: 14px;
+}
+
+.list-style {
+    height: 40px;
+    width: 96%;
+    background: #6C8A95;
+    list-style: none;
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid #fff;
+    margin-top: 1rem;
+    margin-left: 22px;
+    color: #fff;
+}
+
+.topic-list {
+    /* float: left */
+    display: flex;
+    flex: 10;
+    padding-left: 1rem;
+    align-items: center;
+}
+
+.expenditure-list {
+    /* float: right; */
+    display: flex;
+    flex: 10;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.btn-danger {
+    flex: 1;
+    margin: -1px -3px 0 0;
+    height: 40px;
+    border: 1px solid #fff;
+}
+
+.labels {
+    border: none;
+    background: transparent;
+    color: #ccc;
+    font-weight: bold;
+}
+
+.expense-dollar {
+    color: #DC3648;
+    font-size: 15px;
+    margin-right: 6px;
+}
+
+.red {
+    color: #DC3648;
+}
+
+.green {
+    color: #8CE38C;
+}
+
+.yellow {
+    color: #E2DD55;
+}
+
+/* .details {
+    flex: 1;
+    height: 500px;
+    width: 100%;
+    background: rgb(39, 158, 228);
+    margin-top: rem;
+} */
+
+.dollar {
+    font-size: 19px;
+}
+
+.details {
+    margin-top: 4rem;
+    width: 80%;
+}
+
+.money-div {
+    height: 40px;
+    width: 100%;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    margin: 2rem 0;
+    color: #fff;
+    display: flex;
+    text-align: center;
+}
+
+.label {
+    flex: 6;
+    display: flex;
+    align-items: center;    
+    padding-left: 1rem;    
+}
+
+.dollar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.money {
+    flex: 2;
+    display: flex;
+    align-items: center;
+}
+
+.details h3 {
+    color: #fff;
+    text-align:center;
+    font-size: 1rem;
+}
+.alert {
+    height: 30px;
+    width: 80%;
+    background: rgb(197, 76, 76);
+    text-align: center;
+    margin: 0 auto;
+    color: rgb(226, 221, 221);
+    padding-top: 2px;
+    margin-top: -1rem;
+    display: none;
+    transition: 0.4s;
+}
+
+.amt-input {
+    text-align: center;
+}
+
+.amt-input label {
+    color: #fff;
+}
+
+.amt-input input {
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    height: 35px;
+    width: 50%;
+    padding-left: 12px;
+    margin-right: 8px;
+}
+
+.amt-input button {
+    padding: 0 1rem;
+}
+
+.amt-input {
+    height: 90px;
+   
+}
+
+.amt-input form {
+    height: 80px;
+   
+    display: flex;
+    flex-direction: column;
+}
+
+.input-and-btn {
+    margin-top: -2rem;
+}
+
+@media(max-width: 770px) {
+    .form {
+        flex-direction: column;
+        margin-left: -1rem;
+    }
+
+    button {
+        padding: 8px 0;
+        width: 100px;
+        margin-left: 1.3rem;
+        margin-top: 1rem;
+    }
+
+    .labels {
+        margin-top: 8.5rem;
+    }
+
+    .second {
+        margin-left: 1.3rem;
+    }
+
+    .details {
+        width: 105%;
+        margin: -1rem -0.5rem 0 10px;
+    }
+
+    .money {
+        padding-right: 6px;
+    }
+
+    .label {
+        padding-left: 3px;
+    }
+
+    .alert {
+        width: 93%;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .container2 {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .money-div {
+        margin: 1rem 0;
+    }
+
+    .list-style {
+        height: 40px;
+        width: 175%;
+       
+    }
+
+    .input-and-btn {
+        margin-top: 0rem;
+    }
+
+    .input-and-btn input {
+        width: 80%;
+    }
+
+    .input-and-btn button {
+        width: 60%;
+        height: 30px;
+      
+    }
+
+    .amt-input {
+        margin-bottom: 2rem;
+    }
+}
+
+.btn-danger {
+    width: 50px;
+}
+
+.mon-alert {
+    display: block;
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
+    display: none;;
+}
+
 

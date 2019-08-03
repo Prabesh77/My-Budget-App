@@ -1,109 +1,230 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Bootstrap/css/bootstrap.min.css";
 import "./App.css";
 
 export default function App() {
-  const [persons, setPersons] = useState([
-    {
-      name: "Prabesh",
-      completed: false
-    },
-    {
-      name: "Arnold",
-      completed: false
-    },
-    {
-      name: "Mark",
-      completed: false
-    },
-    {
-      name: "Steve",
-      completed: false
+  const [data, setData] = useState([]);
+
+  const submitFunc = (a, b) => {
+    const newItem = { topic: a, expense: parseInt(b) };
+    if (
+      !isNaN(b) &&
+      (function(b) {
+        return (b | 0) === b;
+      })(parseFloat(b))
+    ) {
+      setData([...data, newItem]);
+      document.querySelector(".exp-alert").style.display = "none";
+    } else if ((a == "") & (b == "")) {
+      document.querySelector(".exp-alert").innerHTML =
+        "<p>Please fill all fields</p>";
+      document.querySelector(".exp-alert").style.display = "block";
+    } else {
+      document.querySelector(".exp-alert").innerHTML =
+        "<p>Expenditure should be number</p>";
+      document.querySelector(".exp-alert").style.display = "block";
     }
-  ]);
-
-  const addTodo = myName => {
-    const newPerson = [...persons, { name: myName, completed: false }];
-    setPersons(newPerson);
   };
 
-  // useEffect(() => {
-  //   console.log("Useeffect");
-  // });
-
-  const deleteItem = index => {
-    const items = [...persons];
-    items.splice(index, 1);
-    setPersons(items);
+  const removeItem = index => {
+    let allData = [...data];
+    console.log("delete");
+    allData.splice(index, 1);
+    setData(allData);
   };
 
-  const completedItem = index => {
-    const items = [...persons];
-    items[index].completed = !items[index].completed;
-    setPersons(items);
+  const handleExpense = () => {
+    let totalExpense = 0;
+    data.map(out => (totalExpense += out.expense));
+    return totalExpense;
+  };
+
+  const handleRemained = sec => {
+    let remainedAmt = sec - handleExpense();
+    return remainedAmt;
   };
 
   return (
-    <div className="text-center mt-5 ">
-      <AddTodo handleSubmit={addTodo} />
-      {persons.map((person, index) => (
-        <TodoItem
-          person={person}
-          index={index}
-          key={index}
-          handleDelete={deleteItem}
-          handleCompleted={completedItem}
-          id={index}
-        />
-      ))}
-    </div>
+    <>
+      <h1 className="text-white py-4 text-center">My Budget App</h1>
+      <div className="container">
+        <div className="container1">
+          <AddItem
+            datas={data}
+            submitFunc={submitFunc}
+            handleDelete={removeItem}
+          />
+        </div>
+        <div className="container2">
+          <Details totalExpense={handleExpense} remainedAmt={handleRemained} />
+        </div>
+      </div>
+    </>
   );
 }
 
-function TodoItem({ person, index, handleDelete, handleCompleted }) {
-  return (
-    <ul
-      className="paragraph m-3 bg-warning mx-auto my-0"
-      style={{ textDecoration: person.completed ? "line-through" : "none" }}>
-      <li className="py-1">
-        <span className="index"> {index + 1}.</span>
-        {person.name}
-        <button
-          className="btn btn-danger btn-sm del-btn mt--1"
-          onClick={() => handleDelete(index)}>
-          Delete
-        </button>
-        <button
-          className="btn btn-success btn-sm com-btn del-btn"
-          onClick={() => handleCompleted(index)}>
-          Completed
-        </button>
-      </li>
-    </ul>
-  );
-}
+const AddItem = ({ datas, submitFunc, handleDelete }) => {
+  const [item, setItem] = useState({
+    sub: "",
+    spent: ""
+  });
 
-function AddTodo({ handleSubmit }) {
-  const [currentInput, setCurrentInput] = useState("");
+  const handleChange = e => {
+    // console.log(e.target.value);
+    setItem({ sub: e.target.value, spent: item.spent });
+  };
 
-  const handleSubmitForm = e => {
+  const handleSecChange = e => {
+    // console.log(e.target.value);
+    setItem({ sub: item.sub, spent: e.target.value });
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    if (!currentInput) return;
-    handleSubmit(currentInput);
-    setCurrentInput("");
+    submitFunc(item.sub, item.spent);
+    setItem({ sub: "", spent: "" });
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmitForm}>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Add smart peoples..."
-          value={currentInput}
-          onChange={e => setCurrentInput(e.target.value)}
-        />
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="form-group first">
+          <label>TOPIC</label>
+          <br />
+          <input
+            type="text"
+            className="topic"
+            placeholder="Enter the field of expense..."
+            value={item.sub}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-group second">
+          <label>EXPENDITURE</label>
+          <br />
+          <input
+            type="text"
+            className="expenditure"
+            placeholder="Enter the amount..."
+            value={item.spent}
+            onChange={handleSecChange}
+          />
+        </div>
+        <button>ADD</button>
       </form>
+      {/* ------------------------------ */}
+      <p className="alert exp-alert">Expenditure should be integer</p>
+      {/* ------------------------------ */}
+      <AllLists datas={datas} handleDelete={handleDelete} />
     </div>
   );
-}
+};
+
+const AllLists = ({ datas, handleDelete }) => {
+  return (
+    <>
+      <div className="labels list-style">
+        <span className="topic-list">TOPIC</span>
+        <span className="expenditure-list">EXPENDITURE</span>
+      </div>
+      {datas.map((data, index) => (
+        <Lists
+          topic={data.topic}
+          expense={data.expense}
+          key={index}
+          index={index}
+          handleDelete={handleDelete}
+        />
+      ))}
+    </>
+  );
+};
+
+const Lists = ({ topic, expense, index, handleDelete }) => {
+  return (
+    <li className="list-style">
+      <span className="topic-list">{topic}</span>
+      <span className="expenditure-list">
+        <span className="expense-dollar">$ </span>
+        {expense}
+      </span>
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={() => handleDelete(index)}>
+        X
+      </button>
+    </li>
+  );
+};
+
+const Details = ({ totalExpense, remainedAmt }) => {
+  const [amount, setAmount] = useState("");
+  const [second, setSecond] = useState(0);
+  const handleChange = e => {
+    // let a = e.target.value;
+    // if (
+    //   !isNaN(a) &&
+    //   (function(a) {
+    //     return (a | 0) === a;
+    //   })(parseFloat(a))
+    // ) {
+    //   setAmount(a);
+    // } else {
+    //   console.log("please enter only number");
+    // }
+    setAmount(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (
+      !isNaN(amount) &&
+      (function(amount) {
+        return (amount | 0) === amount;
+      })(parseFloat(amount))
+    ) {
+      setSecond(amount);
+      document.querySelector(".mon-alert").style.display = "none";
+    } else {
+      document.querySelector(".mon-alert").style.display = "block";
+    }
+    setAmount("");
+  };
+  console.log(amount);
+  return (
+    <div className="details">
+      <div className="amt-input">
+        <form action="" onSubmit={handleSubmit}>
+          <label>Enter the total Amount</label>
+
+          <div className="input-and-btn">
+            <input
+              type="text"
+              placeholder="Enter the total amount"
+              onChange={handleChange}
+              value={amount}
+            />
+            <button>Set</button>
+          </div>
+        </form>
+      </div>
+      <p className="mon-alert alert">Please enter only numbers</p>
+      <h3>DETAILS</h3>
+      <div className="total-money-div money-div">
+        <span className="label">Total Money:</span>
+        <span className="green dollar">$</span>
+        <span className="total-money money">{second}</span>
+      </div>
+      <div className="spent-money-div money-div">
+        <span className="label">Spent Money:</span>
+        <span className="red dollar">$</span>
+        <span className="spent-money money">{totalExpense()}</span>
+      </div>
+      <div className="remained-money-div money-div">
+        <span className="label">Remained Money:</span>
+        <span className="yellow dollar">$</span>
+        <span className="remained-money money">{remainedAmt(second)}</span>
+      </div>
+    </div>
+  );
+};
